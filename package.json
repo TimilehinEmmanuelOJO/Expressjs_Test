@@ -1,0 +1,12 @@
+{
+  "name": "expressjs_test",
+  "version": "1.0.0",
+  "description": "This repo is to practice and keep track of what i learn on express.js",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Timi Ojo",
+  "license": "ISC"
+}
