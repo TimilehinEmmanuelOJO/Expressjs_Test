@@ -121,9 +121,41 @@ function updateItem(req, res){
 
 //Delete Item
 
+function deleteItem(req, res){
+    const id = req.url.split('/')[2]
+
+    const items = fs.readFileSync(filePath)
+    const itemsArrOfObj = JSON.parse(items)
+
+    const itemIndex = itemsArrOfObj.findIndex((item) => {
+        return item.id === id
+    })
+
+    if (itemIndex == -1){
+        res.end('item not found')
+    }
+
+    itemsArrOfObj.splice(itemIndex, 1)
+
+    fs.writeFile(filePath, JSON.stringify(itemsArrOfObj), (err) => {
+        if (err){
+            serverErr()
+        }
+        res.end('item successfully deleted')
+
+    })
+}
 
 
+function serverErr(){
+    res.writeHead('500')
+    res.end('Internal Server Error')
+}
 
+function clientErr(){
+    res.writeHead('404')
+    res.end('error 404, page not found')
+}
 
 
 const server = http.createServer(requestHandler)
