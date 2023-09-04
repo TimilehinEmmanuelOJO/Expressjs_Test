@@ -15,7 +15,13 @@ function requestHandler(req, res){
     if (req.url === '/items' && req.method === 'GET'){
         getAllItems(req, res)
     }
-    if (req.url.startsWith('/items/') && req.method === 'GET')
+    if (req.url.startsWith === '/items/' && req.method === 'GET'){
+        getOneItem(req, res)
+    }
+    if(req.url.startsWith('/items/') && req.method === 'patch'){
+        updateItem(req, res)
+    }
+    
 }
 
 
@@ -61,6 +67,61 @@ function getAllItems(req, res){
         res.end(data)
     })
 }
+
+//Get One item
+function getOneItem(req, res){
+    const id = req.url.split('/')[2]
+    const item = fs.readFileSync(filePath)
+const itemsArrOfObj = JSON.parse(item)
+
+const itemIndex = itemsArrOfObj.findIndex((item) => {
+    return item.id === id
+})
+
+if(itemIndex === -1){
+    clientErr()
+}
+res.end(JSON.stringify(itemsArrOfObj[itemIndex]))
+}
+
+
+//Update One Item
+function updateItem(req, res){
+    const id = req.url.split('/')[2];
+    const items = fs.readFileSync(filePath)
+    const itemsArrOfObj = JSON.parse(items)
+
+    const body = []
+    req.on('data', (chunk) => {
+        body.push(chunk);
+    })
+
+    req.on("end", () => {
+        const parsedBody = buffer.concat(body).toString()
+        const update = JSON.parse(parsedBody)
+
+        const itemindex = itemsArrOfObj.findIndex((item) => {
+            return item.id === id;
+        })
+
+        if (itemindex == -1){
+            res.end('Items not found')
+        }
+
+        itemsArrOfObj[itemindex] = {...itemsArrOfObj[itemindex], ...update}
+
+        fs.writeFile(filePath, JSON.stringify(itemsArrOfObj), (err) => {
+            if(err){
+                serverErr()
+            }
+            res.end(JSON.stringify(itemsArrOfObj[itemsIndex]))
+        })
+    })
+}
+
+//Delete Item
+
+
 
 
 
