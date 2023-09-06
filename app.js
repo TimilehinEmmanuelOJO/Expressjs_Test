@@ -4,6 +4,7 @@ const express = require("express")
 const app = express();
 const PORT = 3000
 
+
 //creating middleware
 
 //this middleware logs all request to the console
@@ -13,7 +14,7 @@ app.use((req, res, next)=>{
 })
 
 
-app.get('/',(req, res) => {
+app.get('/timi',(req, res) => {
     res.status(200)
     res.send("timi Ojo")
 })
@@ -28,7 +29,8 @@ app.use((req, res, next) => {
     if (apiKey){
         next()
     }else{
-        res.status(401).send('unauthorized')
+        res.status(401)
+        res.send('unauthorized')
     }
 })
 
