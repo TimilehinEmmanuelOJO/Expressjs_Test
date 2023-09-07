@@ -14,7 +14,7 @@ app.use((req, res, next)=>{
 })
 
 
-app.get('/timi',(req, res) => {
+app.get('/',(req, res) => {
     res.status(200)
     res.send("timi Ojo")
 })
