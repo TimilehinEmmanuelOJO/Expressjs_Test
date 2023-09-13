@@ -47,7 +47,36 @@ bookRouter.post('/', (req, res) => {
     res.json(book)
 })
 
+//put request to update the books array
+bookRouter.put('/:id',(req, res) => {
+    const id = req.params.id //
+    const book = req.body
+    const index = books.findIndex(book => book.id == id)
 
- module.exports = bookRouter
+    if (index == -1){
+        res.status(404).end("Book not found")
+        return
+    }
+
+    books[index] = book
+    res.json(book)
+})
+
+//delete a book from the array
+ bookRouter.delete('/:id', (req, res) => {
+    const id = req.params.id
+    const index = books.findIndex(book.id === id)
+
+    if(index == -1) {
+        res.status(404).end("Book not found")
+        return
+    }
+
+    books.splice(index, 1)
+    res.json(books)
+ })
+
+
+module.exports = bookRouter
 
 
