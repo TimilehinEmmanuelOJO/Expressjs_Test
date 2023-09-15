@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const booksRoute = require('./routes/books');
 const authorRoute = require('./routes/authors');
 
-const PORT = 4000;
+const PORT = 3000;
 const app = express();
 
 app.use(express.static('public'));

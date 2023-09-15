@@ -22,23 +22,25 @@ const authors = [
 
 authorRouter.get('/', (req, res) => {
     res.json(authors)
+    console.log(authors)
 })
+
 
 authorRouter.get('/:id', (req, res) => {
     const id = req.params.id
     const author = authors.find(author => author.id == id)
 
-    if(!author){
-        res.status(404)
-        res.end("Author not found")
+    if (!author) {
+        res.status(404).end("author not found")
+        return
     }
+
     res.json(author)
 })
 
 authorRouter.post('/', (req, res) => {
     const author = req.body
     authors.push(author)
-
     res.json(author)
 })
 
@@ -47,23 +49,21 @@ authorRouter.put('/:id', (req, res) => {
     const author = req.body
     const index = authors.findIndex(author => author.id == id)
 
-    if (index == -1){
-        res.status(404)
-        res.end('Author not found')
+    if (index == -1) {
+        res.status(404).end("author not found")
         return
     }
 
     authors[index] = author
-    res.json
+    res.json(author)
 })
 
 authorRouter.delete('/:id', (req, res) => {
     const id = req.params.id
     const index = authors.findIndex(author => author.id == id)
-
-    if (index == -1){
-        res.status(404)
-        res.end('Author not found')
+    if (index == -1) {
+        res.status(404).end("author not found")
+        return
     }
 
     authors.splice(index, 1)
@@ -71,4 +71,6 @@ authorRouter.delete('/:id', (req, res) => {
 })
 
 
-module.export = authorRouter
+module.exports = authorRouter
+
+

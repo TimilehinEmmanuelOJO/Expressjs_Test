@@ -18,42 +18,41 @@ const books = [
         id: 3,
         year: 1951,
     },
+    {
+        title: 'El rufai',
+        id: 4,
+        year: 1941,
+    },
 ]
-
-//when you go to home, return all books
 
 bookRouter.get('/', (req, res) => {
     res.json(books)
 })
 
-//when you go to home/id, return the book with the id
-bookRouter.get('/:id',(req, res) => {
+bookRouter.get('/:id', (req, res) => {
     const id = req.params.id
-    //finds a book in the book array that the id matches what was passed into it
     const book = books.find(book => book.id == id)
 
-    if (!book){
-        res.status(404)
-        res.end("book not found")
-
-        res.json(book)
+    if (!book) {
+        res.status(404).end("Book not found")
+        return
     }
+
+    res.json(book)
 })
 
-//sending a book into the book array
 bookRouter.post('/', (req, res) => {
-    const body = req.body
+    const book = req.body
     books.push(book)
     res.json(book)
 })
 
-//put request to update the books array
-bookRouter.put('/:id',(req, res) => {
-    const id = req.params.id //
+bookRouter.put('/:id', (req, res) => {
+    const id = req.params.id
     const book = req.body
     const index = books.findIndex(book => book.id == id)
 
-    if (index == -1){
+    if (index == -1) {
         res.status(404).end("Book not found")
         return
     }
@@ -62,21 +61,19 @@ bookRouter.put('/:id',(req, res) => {
     res.json(book)
 })
 
-//delete a book from the array
- bookRouter.delete('/:id', (req, res) => {
+bookRouter.delete('/:id', (req, res) => {
     const id = req.params.id
-    const index = books.findIndex(book.id === id)
-
-    if(index == -1) {
+    const index = books.findIndex(book => book.id == id)
+    if (index == -1) {
         res.status(404).end("Book not found")
         return
     }
 
     books.splice(index, 1)
     res.json(books)
- })
+})
 
 
-module.exports = bookRouter
+ module.exports = bookRouter
 
 
