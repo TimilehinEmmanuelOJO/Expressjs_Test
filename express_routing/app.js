@@ -12,7 +12,7 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 
 app.use('/books', booksRoute);
-//app.use('/authors', authorRoute);
+app.use('/authors', authorRoute);
 
 
 app.get('/', (req, res) => {
