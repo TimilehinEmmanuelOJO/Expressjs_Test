@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 
 
 const booksRoute = require('./routes/books');
-//const authorRoute = require('./routes/authors');
+const authorRoute = require('./routes/authors');
 
 const PORT = 4000;
 const app = express();
