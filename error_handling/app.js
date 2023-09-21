@@ -16,7 +16,13 @@ app.get('/', (req, res) => {
 });
 
 // Asynchronous error is not handled by express
-app.get('/file', async (req, res, next) => {
+app.get('/file', async (req, res) => {
+    const file = await fspromises.readFile('./no-such-file.txt')
+    res.sendFile(file)
+})
+
+
+app.get('/text', async (req, res, next) => {
     try{
         const file = await fspromises.readFile('./no-such-file.txt')
         res.sendFile(file)
@@ -24,6 +30,33 @@ app.get('/file', async (req, res, next) => {
         error.type = 'Not Found'
         next(error)
     }
+})
+
+app.get('/user', async (req, res, next) => {
+    try {
+        const file = await fspromises.readFile('./no-such-file.txt')
+        res.sendFile(file)
+    }catch (error) {
+        error.type = "Redirect"
+        next(error)
+    }
+})
+
+// Handle asynchronous error using error middleware
+app.use((error, req, res, next) => {
+    console.log("Error Handling Middleware called")
+    console.log('Path: ', req.path)
+    console.error('Error: ', error)
+   
+    if (error.type == 'Redirect')
+        res.redirect('error.html')
+     else if (error.type == 'Not Found') // arbitrary condition check
+        res.status(404).send(error)
+    else {
+        res.status(500).send(error)
+    }
+
+    next() // next is required to call next middleware if any
 })
 
 
