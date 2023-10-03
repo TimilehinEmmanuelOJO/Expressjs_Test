@@ -1,24 +1,36 @@
 const http = require("http")
 const path = require('path')
 const fs = require('fs')
+const {authenticate} = require('./authenticate')
 
 const PORT = 3000
 const HOSTNAME = 'localhost'
 
-const filePath = path.join(__dirname, 'items.join')
+const booksDbPath = path.join(__dirname, "db", 'books.json');
+let booksDb = []
 
+const requestHandler = async function (req, res){
+    res.setHeader('Content-Type", "application/json')
 
-function requestHandler(req, res){
-    if (req.url === '/items' && req.method === 'POST'){
-        creatItem(req, res)
+    if (req.url === '/books' && req.method === 'GET'){
+        //authentication
+        authenticate(req, res)
+        .then(() => {
+            getAllBooks(req, res)
+        }).catch((err) => {
+            res.writeHead(400)
+            res.end(JSON.stringify({
+                message:err
+            }))
+        })
+        
+    } else if (req.url === '/books' && req.method === 'POST'){
+        
     }
-    if (req.url === '/items' && req.method === 'GET'){
-        getAllItems(req, res)
-    }
-    if (req.url.startsWith === '/items/' && req.method === 'GET'){
+    if (req.url.startsWith === '/books/' && req.method === 'GET'){
         getOneItem(req, res)
     }
-    if(req.url.startsWith('/items/') && req.method === 'patch'){
+    if(req.url.startsWith('/books/') && req.method === 'patch'){
         updateItem(req, res)
     }
     
